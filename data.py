@@ -4,6 +4,7 @@ from torch.utils.data import DataLoader, Dataset
 from transformers import AutoTokenizer
 
 from config import Config
+from utils import normalize_text
 
 
 class EmotionDataset(Dataset):
@@ -28,6 +29,10 @@ def load_and_preprocess_data():
     test_texts = dataset["test"]["text"]
     test_labels = dataset["test"]["label"]
 
+    # Normalize texts
+    normalized_train_texts = [normalize_text(text) for text in train_texts]
+    normalized_test_texts = [normalize_text(text) for text in test_texts]
+
     # Initialize tokenizer
     tokenizer = AutoTokenizer.from_pretrained(Config.MODEL_NAME)
 
@@ -35,8 +40,8 @@ def load_and_preprocess_data():
         return tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
 
     # Tokenize data
-    train_encodings = tokenize(train_texts)
-    test_encodings = tokenize(test_texts)
+    train_encodings = tokenize(normalized_train_texts)
+    test_encodings = tokenize(normalized_test_texts)
 
     print("Check dataset: ")
     print(train_encodings[0])
