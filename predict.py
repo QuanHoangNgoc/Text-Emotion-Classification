@@ -2,8 +2,8 @@ import torch
 from transformers import AutoTokenizer
 
 import config
+import control
 import utils
-from control import create_model
 
 single_config = config.Config()
 
@@ -29,7 +29,7 @@ def predict_emotion(model, tokenizer, sentence):
 if __name__ == "__main__":
     # Load model and tokenizer (you would typically load these from saved checkpoints)
     tokenizer = AutoTokenizer.from_pretrained(single_config.MODEL_NAME)
-    model = create_model(tokenizer)
+    model = control.create_model(tokenizer)
 
     # Example prediction
     sample_sentence = "I'm so excited about this new adventure!"

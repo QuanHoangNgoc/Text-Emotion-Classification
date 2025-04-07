@@ -4,17 +4,17 @@ from torch.optim import Adam
 from transformers import AutoTokenizer
 
 import config
-from control import create_model, load_and_preprocess_data
+import control
 
 single_config = config.Config()
 
 
 def train_model():
     # Load data
-    train_loader, test_loader, tokenizer = load_and_preprocess_data()
+    train_loader, test_loader, tokenizer = control.load_and_preprocess_data()
 
     # Create model
-    model = create_model(tokenizer)
+    model = control.create_model(tokenizer)
 
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()

@@ -42,5 +42,3 @@ class Config:
 if __name__ == "__main__":
     single_config = Config()
     print(single_config.NUM_EPOCHS)
-    # import new
-    # import new2
