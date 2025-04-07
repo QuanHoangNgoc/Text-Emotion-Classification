@@ -38,9 +38,18 @@ def load_and_preprocess_data():
     train_encodings = tokenize(train_texts)
     test_encodings = tokenize(test_texts)
 
+    print("Check dataset: ")
+    print(train_encodings[0])
+    print(train_labels[0], len(train_labels))
+    print(test_encodings[0])
+    print(test_labels[0], len(test_labels))
+
     # Create datasets
     train_dataset = EmotionDataset(train_encodings, train_labels)
     test_dataset = EmotionDataset(test_encodings, test_labels)
+    print("Check dataset: ")
+    print(train_dataset[0])
+    print(test_dataset[0])
 
     # Create dataloaders
     train_loader = DataLoader(
