@@ -59,26 +59,22 @@ def train_model():
     return model, tokenizer
 
 
-def save_model(model, tokenizer):
-    model.save_pretrained("model")
-    tokenizer.save_pretrained("tokenizer")
+# def save_model(model, tokenizer):
+#     model.save_pretrained("model")
+#     tokenizer.save_pretrained("tokenizer")
 
 
-def load_trained_model(model, tokenizer):
-    model = create_model(tokenizer)
-    model.load_state_dict(torch.load("model"))
-    tokenizer = AutoTokenizer.from_pretrained("tokenizer")
-    return model, tokenizer
+# def load_trained_model(model, tokenizer):
+#     model = create_model(tokenizer)
+#     model.load_state_dict(torch.load("model"))
+#     tokenizer = AutoTokenizer.from_pretrained("tokenizer")
+#     return model, tokenizer
 
 
-def get_main():
+def get_main_outcome():
     model, tokenizer = train_model()
-    save_model(model, tokenizer)
-
-    model, tokenizer = load_trained_model(model, tokenizer)
-    print(model)
     return model, tokenizer
 
 
 if __name__ == "__main__":
-    get_main()
+    get_main_outcome()
