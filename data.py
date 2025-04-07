@@ -57,3 +57,7 @@ def load_and_preprocess_data():
     test_loader = DataLoader(test_dataset, batch_size=Config.BATCH_SIZE)
 
     return train_loader, test_loader, tokenizer
+
+
+if __name__ == "__main__":
+    load_and_preprocess_data()
