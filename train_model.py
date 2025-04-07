@@ -3,8 +3,10 @@ import torch.nn as nn
 from torch.optim import Adam
 from transformers import AutoTokenizer
 
-from config import Config
+import config
 from control import create_model, load_and_preprocess_data
+
+single_config = config.Config()
 
 
 def train_model():
@@ -16,16 +18,17 @@ def train_model():
 
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()
-    optimizer = Adam(model.parameters(), lr=Config.LEARNING_RATE)
+    optimizer = Adam(model.parameters(), lr=single_config.LEARNING_RATE)
 
     # Training loop
-    for epoch in range(Config.NUM_EPOCHS):
+    for epoch in range(single_config.NUM_EPOCHS):
         model.train()
         total_loss = 0
 
         for batch, labels in train_loader:
-            batch = {key: val.to(Config.DEVICE) for key, val in batch.items()}
-            labels = labels.to(Config.DEVICE)
+            batch = {key: val.to(single_config.DEVICE)
+                     for key, val in batch.items()}
+            labels = labels.to(single_config.DEVICE)
 
             optimizer.zero_grad()
             outputs = model(batch["input_ids"])
@@ -35,7 +38,7 @@ def train_model():
             total_loss += loss.item()
 
         print(
-            f"Epoch [{epoch+1}/{Config.NUM_EPOCHS}], Loss: {total_loss / len(train_loader):.4f}")
+            f"Epoch [{epoch+1}/{single_config.NUM_EPOCHS}], Loss: {total_loss / len(train_loader):.4f}")
 
         # Evaluation
         model.eval()
@@ -44,9 +47,9 @@ def train_model():
 
         with torch.no_grad():
             for batch, labels in test_loader:
-                batch = {key: val.to(Config.DEVICE)
+                batch = {key: val.to(single_config.DEVICE)
                          for key, val in batch.items()}
-                labels = labels.to(Config.DEVICE)
+                labels = labels.to(single_config.DEVICE)
 
                 outputs = model(batch["input_ids"])
                 predictions = torch.argmax(outputs, dim=1)

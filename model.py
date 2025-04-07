@@ -1,7 +1,9 @@
 import torch
 import torch.nn as nn
 
-from config import Config
+import config
+
+single_config = config.Config()
 
 
 class EmotionClassifier(nn.Module):
@@ -28,8 +30,8 @@ class EmotionClassifier(nn.Module):
 def create_model(tokenizer):
     model = EmotionClassifier(
         vocab_size=tokenizer.vocab_size,
-        embedding_dim=Config.EMBEDDING_DIM,
-        num_classes=Config.NUM_CLASSES
+        embedding_dim=single_config.EMBEDDING_DIM,
+        num_classes=single_config.NUM_CLASSES
     )
-    model.to(Config.DEVICE)
+    model.to(single_config.DEVICE)
     return model

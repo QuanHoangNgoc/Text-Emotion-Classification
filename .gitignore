@@ -20,6 +20,7 @@ wheels/
 .installed.cfg
 *.egg
 new.py
+new2.py
 
 # Virtual Environment
 venv/

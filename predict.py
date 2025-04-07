@@ -1,9 +1,11 @@
 import torch
 from transformers import AutoTokenizer
 
+import config
 import utils
-from config import Config
 from control import create_model
+
+single_config = config.Config()
 
 
 def predict_emotion(model, tokenizer, sentence):
@@ -13,18 +15,20 @@ def predict_emotion(model, tokenizer, sentence):
     model.eval()
     encoded = tokenizer([normalized_sentence], padding=True,
                         truncation=True, return_tensors="pt")
-    encoded = {key: val.to(Config.DEVICE) for key, val in encoded.items()}
+    encoded = {key: val.to(single_config.DEVICE)
+               for key, val in encoded.items()}
 
     with torch.no_grad():
         output = model(encoded["input_ids"])
         prediction = torch.argmax(output, dim=1).cpu().item()
+        prediction = int(prediction)
 
-    return Config.EMOTIONS[prediction]
+    return single_config.EMOTIONS[prediction]
 
 
 if __name__ == "__main__":
     # Load model and tokenizer (you would typically load these from saved checkpoints)
-    tokenizer = AutoTokenizer.from_pretrained(Config.MODEL_NAME)
+    tokenizer = AutoTokenizer.from_pretrained(single_config.MODEL_NAME)
     model = create_model(tokenizer)
 
     # Example prediction
